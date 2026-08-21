@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title | default: "Engecip - Engenharia contra Incêndio" }}</title>
+    <!-- MANTENHA TODO O SEU CSS (TAG <style>) AQUI. COPIE IGUALZINHO ESTÁ NO SEU INDEX.HTML -->
+    <style>
+        /* ... COPIE E COLE AQUI TODO O SEU CSS ORIGINAL ... */
+    </style>
+</head>
+<body>
+    <!-- CABEÇALHO PADRÃO -->
+    <div class="container">
+        <header class="header">
+            <div class="logo-container">
+                <img src="/logo-engecip.webp" class="logo-img" alt="Engecip Logo" />
+            </div>
+            <nav class="nav-container">
+                <a href="/#" class="nav-item">Home</a>
+                <a href="/#servicos" class="nav-item">Serviços</a>
+                <a href="/#sobre" class="nav-item">Sobre Nós</a>
+                <a href="/#faq" class="nav-item">FAQ</a>
+                <a href="/blog.html" class="nav-item">Blog</a> <!-- O NOVO LINK DO BLOG -->
+                <a href="https://wa.me/5567999970777" class="nav-btn" target="_blank" rel="noopener">Fale Conosco</a>
+            </nav>
+        </header>
+    </div>
+
+    <!-- MÁGICA DO JEKYLL: Aqui o conteúdo muda dependendo da página -->
+    {{ content }}
+
+    <!-- RODAPÉ PADRÃO -->
+    <footer class="footer-contact">
+        <!-- COPIE E COLE AQUI TODO O CÓDIGO DO SEU FOOTER ORIGINAL -->
+    </footer>
+</body>
+</html>
