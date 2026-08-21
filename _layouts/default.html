@@ -6,7 +6,464 @@
     <title>{{ page.title | default: "Engecip - Engenharia contra Incêndio" }}</title>
     <!-- MANTENHA TODO O SEU CSS (TAG <style>) AQUI. COPIE IGUALZINHO ESTÁ NO SEU INDEX.HTML -->
     <style>
-        /* ... COPIE E COLE AQUI TODO O SEU CSS ORIGINAL ... */
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0; 
+            padding: 0;
+            color: #ffffff;
+            background-color: #070d14; 
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        
+        /* CONTAINER PRINCIPAL */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* FUNDO DEGRADÊ */
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 50%, transparent 0%, #070d14 60%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+            margin-bottom: 20px;
+        }
+        
+        /* LOGO AJUSTADA: Maior e sem fundo branco */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            background-color: transparent; 
+            padding: 0;
+        }
+        .logo-img {
+            height: 85px; /* Tamanho da logo aumentado */
+            width: auto;
+            display: block;
+            background-color: transparent; /* Fundo removido */
+            padding: 0;
+            border-radius: 0;
+        }
+
+        /* NAVEGAÇÃO */
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        .nav-item {
+            font-size: 12px;
+            color: #ffffff;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .nav-item:hover {
+            color: #e31818;
+        }
+        .nav-btn {
+            background-color: #e31818;
+            color: #ffffff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s ease;
+        }
+        .nav-btn:hover {
+            background-color: #c01212;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 75vh;
+            position: relative;
+            padding-bottom: 60px;
+        }
+        
+        /* LADO ESQUERDO */
+        .hero-text {
+            width: 50%;
+            padding-right: 40px;
+            z-index: 10;
+        }
+        .hero-title {
+            font-size: 46px; /* Tamanho da fonte diminuído para maior harmonia */
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 25px;
+            color: #ffffff;
+            letter-spacing: -1px;
+        }
+        .hero-title span {
+            color: #e31818; 
+        }
+        /* Subtítulos padronizados e com mesma formatação */
+        .hero-subtitle {
+            font-size: 18px;
+            color: #c4cdd5;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-weight: 400;
+            max-width: 90%;
+        }
+        .hero-subtitle:last-of-type {
+            margin-bottom: 45px; /* Maior espaçamento apenas no último parágrafo antes dos botões */
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+        .btn-primary {
+            background-color: #e31818;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s;
+            border: 2px solid #e31818;
+            text-align: center;
+        }
+        .btn-primary:hover {
+            background-color: #c01212;
+            border-color: #c01212;
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 2px solid #ffffff;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .btn-secondary:hover {
+            background-color: #ffffff;
+            color: #070d14;
+        }
+
+        /* LADO DIREITO: IMAGEM DO HIDRANTE LOCAL */
+        .hero-image-wrapper {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 55%;
+            height: 110%; 
+            z-index: 1;
+            mask-image: linear-gradient(to right, transparent 0%, black 30%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);
+            background-color: #1a1a1a;
+        }
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: right center;
+            opacity: 0.9;
+        }
+
+        /* SEÇÕES GERAIS */
+        section {
+            padding: 80px 0;
+            position: relative;
+            z-index: 10;
+        }
+        .section-bg {
+            background-color: #0a111a;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+            letter-spacing: -0.5px;
+        }
+        .section-title span { color: #e31818; }
+        .section-subtitle {
+            text-align: center;
+            color: #c4cdd5;
+            font-size: 18px;
+            margin-top: -30px;
+            margin-bottom: 50px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        /* GRIDS DE CARDS PADRONIZADOS */
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        .grid-container-4 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .service-card {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px 30px;
+            text-align: left;
+            border-radius: 6px;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+            flex: 1 1 calc(33.333% - 30px);
+            min-width: 300px;
+            max-width: 400px;
+        }
+        .service-card:hover {
+            background-color: rgba(255, 255, 255, 0.04);
+            border-color: rgba(227, 24, 24, 0.4);
+            transform: translateY(-5px);
+        }
+        .service-title {
+            color: #ffffff; 
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            line-height: 1.3;
+        }
+        .service-title::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #e31818;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .service-desc {
+            color: #8b99af;
+            font-size: 16px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* SOBRE NÓS (NÚMEROS) */
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+        .stat-text {
+            color: #8b99af;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* FAQ ACCORDION */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        details {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        details[open] {
+            border-color: rgba(227, 24, 24, 0.3);
+            background-color: rgba(255, 255, 255, 0.04);
+        }
+        summary {
+            padding: 20px 25px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary::after {
+            content: '+';
+            color: #e31818;
+            font-size: 24px;
+            font-weight: 400;
+            transition: transform 0.3s ease;
+        }
+        details[open] summary::after {
+            content: '-';
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            padding: 0 25px 25px;
+            color: #8b99af;
+            font-size: 16px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* CALL TO ACTION */
+        .cta-section {
+            text-align: center;
+            padding: 80px 0;
+        }
+        .cta-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .cta-desc {
+            font-size: 18px;
+            color: #8b99af;
+            margin-bottom: 40px;
+        }
+
+        /* CONTATO RODAPÉ */
+        .footer-contact {
+            background-color: #03060a;
+            padding: 60px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #ffffff;
+            font-size: 16px;
+            text-decoration: none;
+        }
+        .contact-item a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .contact-item a:hover {
+            color: #e31818;
+        }
+        .contact-icon {
+            width: 24px;
+            height: 24px;
+            fill: #e31818;
+            flex-shrink: 0;
+        }
+
+        /* WHATSAPP FLUTUANTE */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 2px 2px 15px rgba(0,0,0,0.3);
+            z-index: 9999;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+        .whatsapp-float svg {
+            width: 35px;
+            height: 35px;
+            fill: white;
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 1024px) {
+            .hero-title { font-size: 38px; }
+            .hero-buttons { flex-direction: column; width: fit-content; }
+        }
+        @media (max-width: 900px) {
+            .header { flex-direction: column; gap: 20px; align-items: flex-start; }
+            .nav-container { flex-wrap: wrap; }
+            .hero { flex-direction: column; align-items: flex-start; padding-top: 40px; }
+            .hero-text { width: 100%; padding-right: 0; }
+            .hero-image-wrapper {
+                width: 100%;
+                opacity: 0.3; 
+                mask-image: linear-gradient(to top, transparent 0%, black 50%);
+                -webkit-mask-image: linear-gradient(to top, transparent 0%, black 50%);
+            }
+        }
+        @media (max-width: 768px) {
+            .grid-container-4 { grid-template-columns: 1fr; }
+            .section-title { font-size: 28px; }
+        }    
     </style>
 </head>
 <body>
