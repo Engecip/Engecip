@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engecip - Engenharia contra Incêndio</title>
+    <style>
+        /* RESET E CONFIGURAÇÕES GERAIS */
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0; 
+            padding: 0;
+            color: #ffffff;
+            background-color: #070d14; 
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        
+        /* CONTAINER PRINCIPAL */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* FUNDO DEGRADÊ */
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 70% 50%, transparent 0%, #070d14 60%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 0;
+            margin-bottom: 20px;
+        }
+        
+        /* LOGO AJUSTADA: Maior e sem fundo branco */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            background-color: transparent; 
+            padding: 0;
+        }
+        .logo-img {
+            height: 85px; /* Tamanho da logo aumentado */
+            width: auto;
+            display: block;
+            background-color: transparent; /* Fundo removido */
+            padding: 0;
+            border-radius: 0;
+        }
+
+        /* NAVEGAÇÃO */
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        .nav-item {
+            font-size: 12px;
+            color: #ffffff;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .nav-item:hover {
+            color: #e31818;
+        }
+        .nav-btn {
+            background-color: #e31818;
+            color: #ffffff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s ease;
+        }
+        .nav-btn:hover {
+            background-color: #c01212;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 75vh;
+            position: relative;
+            padding-bottom: 60px;
+        }
+        
+        /* LADO ESQUERDO */
+        .hero-text {
+            width: 50%;
+            padding-right: 40px;
+            z-index: 10;
+        }
+        .hero-title {
+            font-size: 46px; /* Tamanho da fonte diminuído para maior harmonia */
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 25px;
+            color: #ffffff;
+            letter-spacing: -1px;
+        }
+        .hero-title span {
+            color: #e31818; 
+        }
+        /* Subtítulos padronizados e com mesma formatação */
+        .hero-subtitle {
+            font-size: 18px;
+            color: #c4cdd5;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-weight: 400;
+            max-width: 90%;
+        }
+        .hero-subtitle:last-of-type {
+            margin-bottom: 45px; /* Maior espaçamento apenas no último parágrafo antes dos botões */
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+        .btn-primary {
+            background-color: #e31818;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background-color 0.3s;
+            border: 2px solid #e31818;
+            text-align: center;
+        }
+        .btn-primary:hover {
+            background-color: #c01212;
+            border-color: #c01212;
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 2px solid #ffffff;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .btn-secondary:hover {
+            background-color: #ffffff;
+            color: #070d14;
+        }
+
+        /* LADO DIREITO: IMAGEM DO HIDRANTE LOCAL */
+        .hero-image-wrapper {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 55%;
+            height: 110%; 
+            z-index: 1;
+            mask-image: linear-gradient(to right, transparent 0%, black 30%);
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 30%);
+            background-color: #1a1a1a;
+        }
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: right center;
+            opacity: 0.9;
+        }
+
+        /* SEÇÕES GERAIS */
+        section {
+            padding: 80px 0;
+            position: relative;
+            z-index: 10;
+        }
+        .section-bg {
+            background-color: #0a111a;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+            letter-spacing: -0.5px;
+        }
+        .section-title span { color: #e31818; }
+        .section-subtitle {
+            text-align: center;
+            color: #c4cdd5;
+            font-size: 18px;
+            margin-top: -30px;
+            margin-bottom: 50px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        /* GRIDS DE CARDS PADRONIZADOS */
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        .grid-container-4 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .service-card {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px 30px;
+            text-align: left;
+            border-radius: 6px;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(5px);
+            flex: 1 1 calc(33.333% - 30px);
+            min-width: 300px;
+            max-width: 400px;
+        }
+        .service-card:hover {
+            background-color: rgba(255, 255, 255, 0.04);
+            border-color: rgba(227, 24, 24, 0.4);
+            transform: translateY(-5px);
+        }
+        .service-title {
+            color: #ffffff; 
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            line-height: 1.3;
+        }
+        .service-title::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #e31818;
+            border-radius: 50%;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .service-desc {
+            color: #8b99af;
+            font-size: 16px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* SOBRE NÓS (NÚMEROS) */
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 48px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+        .stat-text {
+            color: #8b99af;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* FAQ ACCORDION */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        details {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        details[open] {
+            border-color: rgba(227, 24, 24, 0.3);
+            background-color: rgba(255, 255, 255, 0.04);
+        }
+        summary {
+            padding: 20px 25px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary::after {
+            content: '+';
+            color: #e31818;
+            font-size: 24px;
+            font-weight: 400;
+            transition: transform 0.3s ease;
+        }
+        details[open] summary::after {
+            content: '-';
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            padding: 0 25px 25px;
+            color: #8b99af;
+            font-size: 16px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* CALL TO ACTION */
+        .cta-section {
+            text-align: center;
+            padding: 80px 0;
+        }
+        .cta-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .cta-desc {
+            font-size: 18px;
+            color: #8b99af;
+            margin-bottom: 40px;
+        }
+
+        /* CONTATO RODAPÉ */
+        .footer-contact {
+            background-color: #03060a;
+            padding: 60px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #ffffff;
+            font-size: 16px;
+            text-decoration: none;
+        }
+        .contact-item a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .contact-item a:hover {
+            color: #e31818;
+        }
+        .contact-icon {
+            width: 24px;
+            height: 24px;
+            fill: #e31818;
+            flex-shrink: 0;
+        }
+
+        /* WHATSAPP FLUTUANTE */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 2px 2px 15px rgba(0,0,0,0.3);
+            z-index: 9999;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+        .whatsapp-float svg {
+            width: 35px;
+            height: 35px;
+            fill: white;
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 1024px) {
+            .hero-title { font-size: 38px; }
+            .hero-buttons { flex-direction: column; width: fit-content; }
+        }
+        @media (max-width: 900px) {
+            .header { flex-direction: column; gap: 20px; align-items: flex-start; }
+            .nav-container { flex-wrap: wrap; }
+            .hero { flex-direction: column; align-items: flex-start; padding-top: 40px; }
+            .hero-text { width: 100%; padding-right: 0; }
+            .hero-image-wrapper {
+                width: 100%;
+                opacity: 0.3; 
+                mask-image: linear-gradient(to top, transparent 0%, black 50%);
+                -webkit-mask-image: linear-gradient(to top, transparent 0%, black 50%);
+            }
+        }
+        @media (max-width: 768px) {
+            .grid-container-4 { grid-template-columns: 1fr; }
+            .section-title { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- IMAGEM DE FUNDO HERO -->
+    <div class="hero-image-wrapper">
+        <img src="hidrante.webp" class="hero-image" alt="Sistema de Hidrante Industrial" />
+    </div>
+    <div class="background-overlay"></div>
+
+    <!-- BOTÃO WHATSAPP FLUTUANTE -->
+    <a href="https://wa.me/5567999970777" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Fale conosco no WhatsApp">
+        <svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg>
+    </a>
+
+    <div class="container">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="logo-container">
+                <img src="ChatGPT Image 21 de jul. de 2026, 22_24_46_3.webp" class="logo-img" alt="Engecip Logo" />
+            </div>
+            <nav class="nav-container">
+                <a href="#" class="nav-item">Home</a>
+                <a href="#servicos" class="nav-item">Serviços</a>
+                <a href="#sobre" class="nav-item">Sobre Nós</a>
+                <a href="#faq" class="nav-item">FAQ</a>
+                <a href="https://wa.me/5567999970777" class="nav-btn" target="_blank" rel="noopener">Fale Conosco</a>
+            </nav>
+        </header>
+
+        <!-- HERO SECTION -->
+        <section class="hero">
+            <div class="hero-text">
+                <h1 class="hero-title">Soluções completas<br>em prevenção e<br>combate a <span>incêndio.</span></h1>
+                
+                <p class="hero-subtitle">Projetos, vistorias, consultorias e execução de sistemas de combate a incêndio com segurança, qualidade e conformidade.</p>
+                <p class="hero-subtitle">Atendimento em Dourados, Campo Grande, Ponta Porã e todo o MS.</p>
+                
+                <div class="hero-buttons">
+                    <a href="#servicos" class="btn-primary">Nossos Serviços</a>
+                    <a href="https://wa.me/5567999970777" class="btn-secondary" target="_blank" rel="noopener">Fale com um Especialista</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- SEÇÃO DE RISCOS -->
+    <section class="section-bg" id="riscos">
+        <div class="container">
+            <h2 class="section-title">Operar <span>irregular</span> custa mais caro</h2>
+            
+            <div class="grid-container-4">
+                <div class="service-card">
+                    <h3 class="service-title">Multas pesadas</h3>
+                    <p class="service-desc">Autuações que comprometem o caixa da empresa a qualquer fiscalização de rotina.</p>
+                </div>
+                <div class="service-card">
+                    <h3 class="service-title">Notificação e Interdição</h3>
+                    <p class="service-desc">O Corpo de Bombeiros emite um auto de infração estipulando um prazo legal para adequação. Caso o projeto não seja regularizado no período, seu negócio é sumariamente interditado.</p>
+                </div>
+                <div class="service-card">
+                    <h3 class="service-title">Alvará bloqueado</h3>
+                    <p class="service-desc">Sem o Auto de Vistoria em dia, a Prefeitura não renova o alvará de funcionamento.</p>
+                </div>
+                <div class="service-card">
+                    <h3 class="service-title">Seguro sem cobertura</h3>
+                    <p class="service-desc">Em caso de sinistro, a seguradora pode negar a indenização se a edificação não estiver regularizada.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DE SERVIÇOS -->
+    <section id="servicos">
+        <div class="container">
+            <h2 class="section-title">Soluções <span>Especializadas</span></h2>
+            
+            <!-- Grid atualizada para centralizar e alinhar perfeitamente 5 cards -->
+            <div class="grid-container">
+                <div class="service-card">
+                    <h3 class="service-title">Projetos Técnicos (PSCIP)</h3>
+                    <p class="service-desc">Elaboração técnica completa, com cálculo de vazão e rotas de fuga. Modelagem precisa para garantir que não haja imprevistos na obra.</p>
+                </div>
+                <div class="service-card">
+                    <h3 class="service-title">Execução de Sistemas de Incêndio</h3>
+                    <p class="service-desc">Instalação completa de todos os equipamentos preventivos exigidos, como rede de hidrantes, casa de bombas, alarmes e iluminação. Executamos a obra 100% fiel ao projeto aprovado.</p>
+                </div>
+                <div class="service-card">
+                    <h3 class="service-title">Emissão de AVCB</h3>
+                    <p class="service-desc">Assessoria completa na emissão inicial do Auto de Vistoria. Com vivência no gerenciamento de obras públicas e análise de protocolos preventivos.</p>
+                </div>
+                <div class="service-card">
+                    <h3 class="service-title">Renovação de Alvará</h3>
+                    <p class="service-desc">Vistoria prévia nas instalações, teste de bombas e elaboração de laudos para renovar seu certificado junto aos Bombeiros sem interdições.</p>
+                </div>
+                <div class="service-card">
+                    <h3 class="service-title">Consultoria e Pré-análise</h3>
+                    <p class="service-desc">Auditoria em projetos existentes e adequação de layout para indústrias e comércio que precisam de regularização no estado.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO SOBRE NÓS -->
+    <section class="section-bg" id="sobre">
+        <div class="container">
+            <h2 class="section-title">Engenharia que <span>garante</span> conformidade</h2>
+            <p class="section-subtitle">A Engecip é especializada em segurança contra incêndio e pânico, atuando desde o projeto técnico até a emissão do certificado junto ao Corpo de Bombeiros. Nosso trabalho é assinado por engenheiro responsável, garantindo respaldo técnico e legal em cada etapa.</p>
+            
+            <div class="stats-container">
+                <div class="stat-item">
+                    <div class="stat-number">+10</div>
+                    <div class="stat-text">Anos de atuação</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">+200</div>
+                    <div class="stat-text">Edificações regularizadas</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">Todo o MS</div>
+                    <div class="stat-text">Área de Atendimento</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">CREA/MS</div>
+                    <div class="stat-text">Registro ativo</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO VANTAGENS -->
+    <section id="vantagens">
+        <div class="container">
+            <h2 class="section-title">Por que escolher a <span>Engecip</span></h2>
+            <div class="grid-container">
+                <div class="service-card">
+                    <h3 class="service-title">Contato direto com o engenheiro</h3>
+                    <p class="service-desc">Sem intermediários: você conversa diretamente com quem assina e executa o projeto, do orçamento à entrega.</p>
+                </div>
+                <div class="service-card">
+                    <h3 class="service-title">Presença regional real</h3>
+                    <p class="service-desc">Atendimento próximo e ativo em todo o Mato Grosso do Sul, com agilidade que empresas de fora do estado não conseguem oferecer.</p>
+                </div>
+                <div class="service-card">
+                    <h3 class="service-title">Acompanhamento de ponta a ponta</h3>
+                    <p class="service-desc">Do diagnóstico inicial até a emissão do AVCB, cuidamos de todo o processo burocrático com os Bombeiros para você.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO FAQ (ACCORDION NATIVO) -->
+    <section class="section-bg" id="faq">
+        <div class="container">
+            <h2 class="section-title">Perguntas <span>Frequentes</span></h2>
+            
+            <div class="faq-container">
+                <details name="faq-accordion" open>
+                    <summary>O que é o PSCIP e quando ele é obrigatório?</summary>
+                    <p class="faq-answer">O Processo de Segurança Contra Incêndio e Pânico (PSCIP) é o projeto técnico que dimensiona todos os equipamentos de segurança de um imóvel. Ele é obrigatório por lei para praticamente todas as edificações de uso comercial, industrial, condomínios multifamiliares e locais de reunião de público. Sem ele, a sua empresa não obtém o alvará de funcionamento.</p>
+                </details>
+                
+                <details name="faq-accordion">
+                    <summary>Qual a diferença entre o Projeto (PSCIP) e o Certificado (AVCB)?</summary>
+                    <p class="faq-answer">O PSCIP é a "planta", a engenharia no papel aprovada pelos Bombeiros. Já o Certificado de Vistoria (AVCB/CVCB) é o documento final emitido após a execução da obra, atestando que tudo o que estava no projeto foi instalado corretamente no local. A Engecip resolve as duas etapas para você.</p>
+                </details>
+
+                <details name="faq-accordion">
+                    <summary>O que acontece se a minha empresa funcionar sem a regularização?</summary>
+                    <p class="faq-answer">Funcionar sem a regularização expõe o seu negócio a riscos gravíssimos. A edificação fica sujeita a multas pesadas, interdição imediata pelo Corpo de Bombeiros, impossibilidade de renovar o Alvará da Prefeitura e, em caso de sinistro, as seguradoras podem se recusar a pagar a indenização.</p>
+                </details>
+
+                <details name="faq-accordion">
+                    <summary>Meu prédio é antigo e já está funcionando. Ainda é possível regularizar?</summary>
+                    <p class="faq-answer">Sim, é perfeitamente possível. A Engecip realiza vistorias técnicas (auditorias) em edificações existentes para mapear o que precisa ser adequado. Elaboramos um projeto de adequação focado em resolver as pendências com o menor impacto estrutural possível na sua operação diária.</p>
+                </details>
+
+                <details name="faq-accordion">
+                    <summary>O Certificado do Corpo de Bombeiros tem validade? Preciso renovar?</summary>
+                    <p class="faq-answer">Sim. A validade é de 1 ano. A Engecip atua na renovação ágil do seu alvará, realizando os laudos necessários e os testes prévios das bombas e alarmes para que você não sofra interdições.</p>
+                </details>
+
+                <details name="faq-accordion">
+                    <summary>Como é calculado o custo para regularizar a minha edificação?</summary>
+                    <p class="faq-answer">O orçamento não é um "chute". Ele é calculado de forma técnica com base na área total construída (m²), no grau de risco da atividade exercida (Carga de Incêndio) e nos sistemas exigidos pela norma para o seu caso específico. Fale com nossos engenheiros para um diagnóstico preciso da sua necessidade.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title">Seu Alvará está <span style="color: #e31818;">vencido</span> ou perto de vencer?</h2>
+            <p class="cta-desc">Não espere uma notificação para agir. Fale agora com um engenheiro e faça um diagnóstico técnico sem compromisso.</p>
+            <a href="https://wa.me/5567999970777" class="btn-primary" target="_blank" rel="noopener">Quero Regularizar Minha Empresa Agora</a>
+        </div>
+    </section>
+
+    <!-- RODAPÉ CONTATO -->
+    <footer class="footer-contact">
+        <div class="container">
+            <div class="contact-list">
+                
+                <div class="contact-item">
+                    <svg class="contact-icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M493.4 24.6l-104-24c-11.3-2.6-22.9 3.3-27.5 13.9l-48 112c-4.2 9.8-1.4 21.3 6.9 28l60.6 49.6c-36 76.7-98.9 140.5-177.2 177.2l-49.6-60.6c-6.8-8.3-18.2-11.1-28-6.9l-112 48C3.9 366.5-2 378.1.6 389.4l24 104C27.1 504.2 36.7 512 48 512c256.1 0 464-207.5 464-464 0-11.2-7.7-20.9-18.6-23.4z"></path></svg>
+                    <span><strong>Telefone:</strong> <a href="tel:+5567999970777">(67) 99997-0777</a></span>
+                </div>
+                
+                <div class="contact-item">
+                    <svg class="contact-icon" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"></path></svg>
+                    <span><strong>WhatsApp:</strong> <a href="https://wa.me/5567999970777" target="_blank" rel="noopener">Clique aqui para enviar mensagem</a></span>
+                </div>
+
+                <div class="contact-item">
+                    <svg class="contact-icon" viewBox="0 0 384 512" xmlns="http://www.w3.org/2000/svg"><path d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"></path></svg>
+                    <span><strong>Atuação:</strong> Dourados, Campo Grande, Ponta Porã e todo o MS.</span>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
