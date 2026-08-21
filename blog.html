@@ -1,0 +1,81 @@
+---
+layout: default
+title: Blog - Engecip
+---
+
+<style>
+    /* Estilos Específicos da Página do Blog */
+    .blog-header {
+        text-align: center;
+        padding: 60px 0 40px;
+        position: relative;
+        z-index: 10;
+    }
+    .blog-title {
+        font-size: 46px;
+        font-weight: 700;
+        color: #ffffff;
+        letter-spacing: -1px;
+    }
+    /* Adaptação do card de serviço para card de blog */
+    .blog-card {
+        padding: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    .blog-card-img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+    }
+    .blog-card-content {
+        padding: 30px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .blog-title-card {
+        font-size: 22px;
+        color: #ffffff;
+        margin-bottom: 15px;
+        font-weight: 700;
+        line-height: 1.3;
+    }
+    .blog-title-card span { color: #e31818; }
+    .ler-mais {
+        margin-top: auto;
+        color: #e31818;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 13px;
+        letter-spacing: 0.5px;
+        text-decoration: none;
+        padding-top: 15px;
+    }
+</style>
+
+<!-- FUNDO DEGRADÊ -->
+<div class="background-overlay"></div>
+
+<div class="container">
+    <div class="blog-header">
+        <h1 class="blog-title">Blog</h1>
+        <p class="section-subtitle">Informação técnica e especializada sobre prevenção e combate a incêndio.</p>
+    </div>
+
+    <!-- GRADE DE CARDS GERADA AUTOMATICAMENTE -->
+    <div class="grid-container" style="padding-bottom: 80px;">
+        {% for post in site.posts %}
+        <div class="service-card blog-card">
+            <img src="{{ post.imagem_capa }}" class="blog-card-img" alt="{{ post.title }}">
+            <div class="blog-card-content">
+                <!-- A TAG 'post.title' Puxará o título com o <span> embutido -->
+                <h3 class="blog-title-card">{{ post.title }}</h3>
+                <p class="service-desc" style="margin-bottom: 20px;">{{ post.resumo }}</p>
+                <a href="{{ post.url }}" class="ler-mais">Leia o artigo ➔</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
