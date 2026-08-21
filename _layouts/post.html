@@ -1,0 +1,78 @@
+---
+layout: default
+---
+
+<style>
+    /* O Fundo claro e o texto escuro (quase preto) solicitados */
+    .article-wrapper {
+        background-color: #f8f9fa; /* Cinza bem clarinho, agradável aos olhos */
+        color: #1a1a1a; /* Quase preto */
+        padding: 60px 40px;
+        border-radius: 8px;
+        max-width: 900px;
+        margin: 0 auto 80px;
+        position: relative;
+        z-index: 10;
+    }
+    .article-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    .article-title {
+        font-size: 42px;
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: -1px;
+    }
+    .article-title span { color: #e31818; }
+    
+    .article-content {
+        font-size: 18px;
+        line-height: 1.8;
+    }
+    .article-content img {
+        width: 100%;
+        border-radius: 6px;
+        margin: 30px 0;
+    }
+    .article-content h2, .article-content h3 {
+        margin-top: 40px;
+        margin-bottom: 15px;
+    }
+    
+    /* Botões de Voltar */
+    .btn-voltar {
+        display: inline-block;
+        color: #e31818;
+        font-weight: 700;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+    }
+    .btn-voltar:hover { text-decoration: underline; }
+    .topo-voltar { margin-bottom: 30px; text-align: left; }
+    .fim-voltar { margin-top: 50px; text-align: center; }
+</style>
+
+<div class="background-overlay"></div>
+
+<div class="container">
+    <div class="article-wrapper">
+        <div class="topo-voltar">
+            <a href="/blog.html" class="btn-voltar">⬅ Voltar para o Blog</a>
+        </div>
+
+        <div class="article-header">
+            <h1 class="article-title">{{ page.title }}</h1>
+        </div>
+
+        <div class="article-content">
+            {{ content }}
+        </div>
+
+        <div class="fim-voltar">
+            <a href="/blog.html" class="btn-voltar">⬅ Voltar para o Blog</a>
+        </div>
+    </div>
+</div>
